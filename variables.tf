@@ -26,3 +26,11 @@ variable "name" {
   type = string
   default = "integration-argoworkflow"
 }
+
+variable "rolearn" {
+  type = string
+}
+
+variable "username" {
+  type = string
+}
