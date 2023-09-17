@@ -27,6 +27,14 @@ variable "name" {
   default = "integration-argoworkflow"
 }
 
+variable "ingress_ports" {
+  default = [80, 443]
+}
+
+variable "ip_address" {
+  type = string
+}
+
 variable "rolearn" {
   type = string
 }
