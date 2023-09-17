@@ -2,7 +2,7 @@ module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "5.1.1"
 
-  name = "aws-auth-and-irsa-vpc"
+  name = "${var.name}-vpc"
   cidr = var.vpc_cidr
 
   azs             = var.azs
