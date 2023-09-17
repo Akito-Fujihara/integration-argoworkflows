@@ -28,7 +28,27 @@ module "eks" {
     },
   ]
 
+  cluster_security_group_additional_rules = {
+    argo_workflow = {
+      protocol    = "tcp"
+      from_port   = 30000
+      to_port     = 30000
+      security_groups = [aws_security_group.alb.id]
+      description = "Argo Workflow"
+      type        = "ingress"
+      self        = true
+    }
+  }
+
   node_security_group_additional_rules = {
+    argo_workflow = {
+      protocol    = "tcp"
+      from_port   = 30000
+      to_port     = 30000
+      cidr_blocks = ["0.0.0.0/0"]
+      description = "Argo Workflow"
+      type        = "ingress"
+    }
     # AdmissionWebhookが動作しないので追加指定
     admission_webhook = {
       description                   = "Admission Webhook"
@@ -56,6 +76,11 @@ module "eks" {
       self        = true
     }
   }
+}
+
+resource "aws_autoscaling_attachment" "argo_workflows" {
+  autoscaling_group_name = module.eks.eks_managed_node_groups_autoscaling_group_names[0]
+  lb_target_group_arn    = aws_lb_target_group.eks.id
 }
 
 provider "kubernetes" {

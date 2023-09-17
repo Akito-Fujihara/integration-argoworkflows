@@ -21,3 +21,31 @@ resource "aws_lb_listener" "http" {
     }
   }
 }
+
+resource "aws_lb_listener_rule" "http_rule" {
+  listener_arn = aws_lb_listener.http.arn
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.eks.id
+  }
+
+  condition {
+    path_pattern {
+      values = ["*"]
+    }
+  }
+}
+
+resource "aws_lb_target_group" "eks" {
+  name = var.name
+  port = 30000
+
+  protocol = "HTTP"
+  vpc_id   = module.vpc.vpc_id
+
+  health_check {
+    port = 30000
+    path = "/"
+  }
+}
