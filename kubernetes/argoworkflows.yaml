@@ -1,0 +1,5 @@
+server:
+  serviceType: NodePort
+  serviceNodePort: 30000
+  extraArgs:
+    - --auth-mode=server

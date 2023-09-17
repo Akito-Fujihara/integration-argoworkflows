@@ -1,0 +1,8 @@
+releases:
+  - name: argo-workflows
+    namespace: argo-workflows
+    forceNamespace: argo-workflows
+    chart: argo/argo-workflows
+    version: 0.33.3
+    values: 
+      - argoworkflows.yaml
