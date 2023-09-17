@@ -30,13 +30,13 @@ module "eks" {
 
   cluster_security_group_additional_rules = {
     argo_workflow = {
-      protocol    = "tcp"
-      from_port   = 30000
-      to_port     = 30000
+      protocol        = "tcp"
+      from_port       = 30000
+      to_port         = 30000
       security_groups = [aws_security_group.alb.id]
-      description = "Argo Workflow"
-      type        = "ingress"
-      self        = true
+      description     = "Argo Workflow"
+      type            = "ingress"
+      self            = true
     }
   }
 
@@ -90,6 +90,6 @@ provider "kubernetes" {
   exec {
     api_version = "client.authentication.k8s.io/v1beta1"
     command     = "aws"
-    args = ["eks", "get-token", "--cluster-name", module.eks.cluster_name]
+    args        = ["eks", "get-token", "--cluster-name", module.eks.cluster_name]
   }
 }

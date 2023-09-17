@@ -23,7 +23,7 @@ variable "private_subnet_cidrs" {
 }
 
 variable "name" {
-  type = string
+  type    = string
   default = "integration-argoworkflow"
 }
 
