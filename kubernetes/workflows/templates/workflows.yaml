@@ -4,21 +4,36 @@ metadata:
   name: hello-workflow
   namespace: {{ .Release.Namespace }}
 spec:
-  entrypoint: hello           # We reference our first "template" here
-
+  entrypoint: hello
   templates:
-  - name: hello               # The first "template" in this Workflow, it is referenced by "entrypoint"
-    steps:                    # The type of this "template" is "steps"
-    - - name: hello
-        template: whalesay    # We reference our second "template" here
-        arguments:
-          parameters: [{name: message, value: "hello1"}]
-
-  - name: whalesay             # The second "template" in this Workflow, it is referenced by "hello"
+  - name: whalesay
     inputs:
       parameters:
       - name: message
-    container:                # The type of this "template" is "container"
+    container:
       image: docker/whalesay
       command: [cowsay]
       args: ["{{ `{{inputs.parameters.message}}` }}"]
+
+  - name: hello
+    dag:
+      tasks:
+      - name: A
+        template: whalesay
+        arguments:
+          parameters: [{name: message, value: "hello A"}]
+      - name: B
+        dependencies: [A]
+        template: whalesay
+        arguments:
+          parameters: [{name: message, value: "hello B"}]
+      - name: C
+        dependencies: [A]
+        template: whalesay
+        arguments:
+          parameters: [{name: message, value: "hello C"}]
+      - name: D
+        dependencies: [B, C]
+        template: whalesay
+        arguments:
+          parameters: [{name: message, value: "hello D"}]
