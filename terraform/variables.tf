@@ -28,7 +28,7 @@ variable "name" {
 }
 
 variable "ingress_ports" {
-  default = [80, 443]
+  default = [80]
 }
 
 variable "ip_address" {
