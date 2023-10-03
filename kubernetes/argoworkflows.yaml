@@ -1,3 +1,20 @@
+controller:
+  persistence:
+    archive: true
+    nodeStatusOffLoad: true
+    mysql:
+      # Change here per cluster
+      database: workflow_archive
+      host: rds-host
+      port: 3306
+      tableName: argo_workflows
+      userNameSecret:
+        name: argo-mysql-config
+        key: username
+      passwordSecret:
+        name: argo-mysql-config
+        key: password
+
 server:
   serviceType: NodePort
   serviceNodePort: 30000
