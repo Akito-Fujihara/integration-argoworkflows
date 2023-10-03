@@ -42,3 +42,11 @@ variable "rolearn" {
 variable "username" {
   type = string
 }
+
+variable "mysql_password" {
+  type = string
+}
+
+variable "mysql_username" {
+  type = string
+}
