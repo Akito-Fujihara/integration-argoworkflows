@@ -11,3 +11,6 @@ releases:
     chart: workflows
     namespace: argo-workflows
     version: 0.1.0
+    values:
+      - s3_1_access_role_arn: {{ requiredEnv "S3_1_ACCESS_ROLE_ARN" }}
+      - s3_2_access_role_arn: {{ requiredEnv "S3_2_ACCESS_ROLE_ARN" }}
