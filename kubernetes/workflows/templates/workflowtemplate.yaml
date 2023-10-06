@@ -17,3 +17,51 @@ spec:
         image: docker/whalesay
         command: [cowsay]
         args: ["{{ `{{inputs.parameters.message}}` }}"]
+---
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: s3-1-artifact-wftemplate
+spec:
+  serviceAccountName: artifact-repo-1-access
+  artifactRepositoryRef:
+    configMap: artifact-repositories
+    key: s3-1-access
+  entrypoint: whalesay-template
+  arguments:
+    parameters:
+      - name: message
+        value: Access S3(argowf-artifact-repo-1) for artifact repo !!
+  templates:
+    - name: whalesay-template
+      inputs:
+        parameters:
+          - name: message
+      container:
+        image: docker/whalesay
+        command: [cowsay]
+        args: ["{{ `{{inputs.parameters.message}}` }}"]
+---
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: s3-2-artifact-wftemplate
+spec:
+  serviceAccountName: artifact-repo-2-access
+  artifactRepositoryRef:
+    configMap: artifact-repositories
+    key: s3-2-access
+  entrypoint: whalesay-template
+  arguments:
+    parameters:
+      - name: message
+        value: Access S3(argowf-artifact-repo-2) for artifact repo !!
+  templates:
+    - name: whalesay-template
+      inputs:
+        parameters:
+          - name: message
+      container:
+        image: docker/whalesay
+        command: [cowsay]
+        args: ["{{ `{{inputs.parameters.message}}` }}"]
