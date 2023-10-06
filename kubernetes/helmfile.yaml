@@ -5,7 +5,7 @@ releases:
     chart: argo/argo-workflows
     version: 0.33.3
     values: 
-      - argoworkflows.yaml
+      - argoworkflows.yaml.gotmpl
 
   - name: workflows
     chart: workflows
