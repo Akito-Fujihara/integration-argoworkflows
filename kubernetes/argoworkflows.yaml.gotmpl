@@ -14,9 +14,15 @@ controller:
       passwordSecret:
         name: argo-mysql-config
         key: password
+  serviceAccount:
+    annotations:
+      eks.amazonaws.com/role-arn: {{ requiredEnv "ARGOWF_IRSA_ROLE_ARN" | quote}}
 
 server:
   serviceType: NodePort
   serviceNodePort: 30000
   extraArgs:
     - --auth-mode=server
+  serviceAccount:
+    annotations:
+      eks.amazonaws.com/role-arn: {{ requiredEnv "ARGOWF_IRSA_ROLE_ARN" | quote}}
