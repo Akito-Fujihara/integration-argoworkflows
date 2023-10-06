@@ -26,3 +26,39 @@ server:
   serviceAccount:
     annotations:
       eks.amazonaws.com/role-arn: {{ requiredEnv "ARGOWF_IRSA_ROLE_ARN" | quote}}
+
+useStaticCredentials: false
+artifactRepositoryRef:
+  artifact-repositories:
+    annotations:
+      workflows.argoproj.io/default-artifact-repository: s3-1-access
+    s3-1-access:
+      archiveLogs: true
+      s3:
+        endpoint: s3.amazonaws.com
+        bucket: "argowf-artifact-repo-1"
+        insecure: false
+        useSDKCreds: true
+        encryptionOptions:
+          enableEncryption: false
+        keyFormat: "{{ `{{workflow.creationTimestamp.Y}}\
+          /{{workflow.creationTimestamp.m}}\
+          /{{workflow.creationTimestamp.d}}\
+          /{{workflow.namespace}}\
+          /{{workflow.name}}\
+          /{{pod.name}}` }}"
+    s3-2-access:
+      archiveLogs: true
+      s3:
+        endpoint: s3.amazonaws.com
+        bucket: "argowf-artifact-repo-2"
+        insecure: false
+        useSDKCreds: true
+        encryptionOptions:
+          enableEncryption: false
+        keyFormat: "{{ `{{workflow.creationTimestamp.Y}}\
+          /{{workflow.creationTimestamp.m}}\
+          /{{workflow.creationTimestamp.d}}\
+          /{{workflow.namespace}}\
+          /{{workflow.name}}\
+          /{{pod.name}}` }}"
